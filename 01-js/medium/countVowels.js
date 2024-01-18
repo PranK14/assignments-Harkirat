@@ -6,7 +6,24 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let count = 0
+  const charArr = str.split('')
+  charArr.forEach((el) => {
+    if (
+      el === 'a' ||
+      el === 'e' ||
+      el === 'i' ||
+      el === 'o' ||
+      el === 'u' ||
+      el === 'A' ||
+      el === 'E' ||
+      el === 'I' ||
+      el === 'O' ||
+      el === 'U'
+    )
+      count += 1
+  })
+  return count
 }
 
-module.exports = countVowels;
+module.exports = countVowels
