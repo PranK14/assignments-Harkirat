@@ -14,19 +14,40 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  const { category, price } = transaction
+  // const list = {}
+  // transactions.forEach((transaction) => {
+  //   const { category, price } = transaction
 
-  if (!list[category]) {
-    list[category] = price
-  } else {
-    list[category] += price
-  }
+  //   if (!list[category]) {
+  //     list[category] = price
+  //   } else {
+  //     list[category] += price
+  //   }
+  // })
+
+  // const result = []
+  // Object.keys(list).forEach((category) => {
+  //   result.push({ category: category, totalSpent: list[category] })
+  // })
+
+  // return result
 
   const result = []
-  Object.keys(list).forEach((category) => {
-    result.push({ category: category, totalSpent: list[category] })
-  })
 
+  for (let i = 0; i < transactions.length; i++) {
+    let check = result.find(
+      (item) => item.category === transactions[i].category
+    )
+
+    if (check) {
+      check.totalSpent += transactions[i].price
+    } else {
+      result.push({
+        category: transactions[i].category,
+        totalSpent: transactions[i].price,
+      })
+    }
+  }
   return result
 }
 

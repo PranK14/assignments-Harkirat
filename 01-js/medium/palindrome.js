@@ -4,7 +4,32 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  // const temp = str.replace(/[^\w\s]|_/g, '')
+  // let charArr = temp.toLowerCase().split('')
+  // let i = 0,
+  //   j = charArr.length - 1
+  // while (i < j) {
+  //   if (charArr[i] === ' ') {
+  //     i++
+  //   }
+  //   if (charArr[j] === ' ') {
+  //     j--
+  //   }
+  //   if (charArr[i] != charArr[j]) {
+  //     return false
+  //   }
+  //   i++
+  //   j--
+  // }
+  // return true
+
+  const rev = str
+    .replace(/[^\w]/g, '')
+    .toLowerCase()
+    .split('')
+    .reverse()
+    .join('')
+  return rev === str.replace(/[^\w]/g, '').toLowerCase()
 }
 
-module.exports = isPalindrome;
+module.exports = isPalindrome
