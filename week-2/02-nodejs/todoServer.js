@@ -39,11 +39,71 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const list = [
+  {
+    id: 1,
+    title: 'Wake up',
+    description: 'wake up today',
+  },
+]
+const express = require('express')
+const bodyParser = require('body-parser')
+
+const app = express()
+
+app.use(bodyParser.json())
+
+app.get('/todos', (req, res) => {
+  res.json(list)
+})
+
+app.get('/todos/:id', (req, res) => {
+  let todo = list.find((item) => {
+    item.id === parseInt(req.body.id)
+  })
+  if (!todo) {
+    res.status(404).send()
+  } else {
+    res.json(todo)
+  }
+})
+
+app.post('/todos', (req, res) => {
+  const todo = {
+    id: Math.floor(Math.random() * 1000),
+    title: req.body.title,
+    description: req.body.description,
+  }
+  list.push(todo)
+  res.status(200).json(todo)
+})
+
+app.put('/todos/:id', (req, res) => {
+  const id = list.findIndex((item) => item.id === parseInt(req.params.id))
+
+  if (id === -1) {
+    res.status(411).json({ msg: 'no id found' })
+  } else {
+    list[id].title = req.body.title
+    list[id].description = req.body.description
+    res.json(list[id])
+  }
+})
+
+app.delete('/todos/:id', (req, res) => {
+  const id = list.findIndex((item) => item.id === parseInt(req.params.id))
+
+  if (id === -1) {
+    res.status(411).json({ msg: 'no id found' })
+  } else {
+    list.splice(id, 1)
+    res.status(200).json({ msg: 'deleted successfully!' })
+  }
+})
+
+app.listen(3000, () => {
+  console.log('hosted successfully on port 3000!')
+})
+
+module.exports = app
