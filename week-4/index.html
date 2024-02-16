@@ -7,16 +7,37 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const child = document.createElement("div");
+
+      const firstGrandChild = document.createElement("div");
+      firstGrandChild.innerHTML = todo.title
+
+      const secondGrandChild = document.createElement("div");
+      secondGrandChild.innerHTML = todo.description
+
+       const thirdGrandChild = document.createElement("div");
+      thirdGrandChild.innerHTML = todo.id
+
+      // thirdGrandChild.setAttribute("onClick", `markAsDone(${id})`)
+
+      child.appendChild(firstGrandChild);
+      child.appendChild(secondGrandChild)
+      child.appendChild(thirdGrandChild)
+
+      document.getElementById("todos").appendChild(child);
     }
 
     function removeTodoFromDom(todo) {
-      
+      const element = document.getElementById(todo.id);
+      element.parent.removeChild(element);
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+        const element = document.getElementById(oldTodo.id);
+        element.children[0].innerHTML = newTodo.title;
+        element.children[1].innerHTML = newTodo.title;
+
     }
 
     function updateState(newTodos) {
@@ -28,6 +49,25 @@
       const added = [];
       const deleted = [];
       const updated = [];
+      for(let i = 0; i < oldTodoState.length; i++) {
+        let todo = newTodos.find((item) => item.id === oldTodoState[i].id)
+
+        if(!todo) {
+          deleted.push(todo);
+        }
+      }
+      for(let i = 0; i < newTodos.length; i++) {
+        let todo = oldTodoState.find((item) => item.id === newTodos[i].id);
+        if(!todo) {
+          added.push(todo);
+        } else {
+          if(todo.title !== newTodos[i].title || todo.description !== newTodos[i].description) {
+            updated.push(todo)
+          }
+        }
+      }
+
+      
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
@@ -43,6 +83,8 @@
         id: globalId++,
       })
       updateState(todoState);
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
     }
   </script>
 </head>
